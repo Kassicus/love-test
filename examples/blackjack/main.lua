@@ -86,28 +86,33 @@ function love.mousepressed(x, y, button)
 end
 
 function drawTable()
+    local gameAreaStart = 460 -- Left panel width + margin
+    local gameAreaWidth = WINDOW_WIDTH - gameAreaStart - 50
+    
     -- Draw table border
-    love.graphics.setColor(0.8, 0.6, 0.4, 1) -- Brown border
-    love.graphics.rectangle('line', 50, 50, WINDOW_WIDTH - 100, WINDOW_HEIGHT - 100, 10, 10)
+    love.graphics.setColor(0.8, 0.6, 0.4, 1) -- Brown border  
+    love.graphics.rectangle('line', gameAreaStart, 50, gameAreaWidth, WINDOW_HEIGHT - 100, 10, 10)
     
     -- Draw dealer area
     love.graphics.setColor(0.2, 0.2, 0.2, 0.3)
-    love.graphics.rectangle('fill', 200, 140, WINDOW_WIDTH - 300, 200, 5, 5)
+    love.graphics.rectangle('fill', gameAreaStart + 50, 140, gameAreaWidth - 100, 200, 5, 5)
     
     -- Draw player area
     love.graphics.setColor(0.2, 0.2, 0.2, 0.3)
-    love.graphics.rectangle('fill', 200, 700, WINDOW_WIDTH - 300, 200, 5, 5)
+    love.graphics.rectangle('fill', gameAreaStart + 50, 700, gameAreaWidth - 100, 200, 5, 5)
 end
 
 function drawCards()
+    local gameAreaStart = 460 -- Left panel width + margin
+    
     -- Draw dealer cards
-    dealer:draw(250, 180)
+    dealer:draw(gameAreaStart + 100, 180)
     
     -- Draw player cards
-    player:draw(250, 740)
+    player:draw(gameAreaStart + 100, 740)
     
     -- Draw deck visualization
-    deck:draw(50, 450)
+    deck:draw(gameAreaStart + 50, 450)
 end
 
 function drawUI()
