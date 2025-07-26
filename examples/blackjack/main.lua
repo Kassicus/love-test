@@ -6,12 +6,14 @@ local Player = require('player')
 local Dealer = require('dealer')
 local GameState = require('gameState')
 local UI = require('ui')
+local Solver = require('solver')
 
 -- Game variables
 local deck = nil
 local player = nil
 local dealer = nil
 local gameState = nil
+local solver = nil
 
 -- Game constants
 local WINDOW_WIDTH = 1600
@@ -30,6 +32,7 @@ function love.load()
     deck = Deck.new(6) -- 6-deck shoe
     player = Player.new()
     dealer = Dealer.new()
+    solver = Solver.new()
     
     -- Initialize UI
     UI.init()
@@ -116,7 +119,7 @@ function drawCards()
 end
 
 function drawUI()
-    UI.draw(gameState, player, dealer, deck)
+    UI.draw(gameState, player, dealer, deck, solver)
 end
 
 function handleSpaceKey()
