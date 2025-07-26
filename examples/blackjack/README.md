@@ -24,7 +24,7 @@ A comprehensive blackjack implementation with full casino rules, betting system,
 - **Blackjack Payout**: 3:2 payout for natural blackjack
 - **Dealer AI**: Standard casino rules (hit on soft 17)
 - **Statistics Tracking**: Win rate, hands played, blackjack frequency
-- **Visual Feedback**: Card animations, hand values, game state messages
+- **Visual Feedback**: Card animations, hand values, game state messages\n- **🎯 Blackjack Pro**: Real-time optimal strategy recommendations using basic strategy
 
 ## How to Play
 
@@ -70,7 +70,7 @@ A comprehensive blackjack implementation with full casino rules, betting system,
 - **Insurance**: 2:1 (if dealer has blackjack)
 - **Push**: Bet returned (tie)
 
-## Advanced Features
+## 🎯 Blackjack Pro Strategy Solver\n\nThe game includes a built-in strategy advisor that provides optimal play recommendations based on mathematical basic strategy.\n\n### Features\n- **Real-time Recommendations**: Shows optimal action during your turn\n- **Complete Strategy**: Covers all situations (hard hands, soft hands, pairs)\n- **Visual Guidance**: Color-coded recommendations with explanations\n- **Basic Strategy**: Mathematically optimal play for standard casino rules\n\n### Strategy Coverage\n- **Hard Hands**: 5-21 vs all dealer upcards\n- **Soft Hands**: A,2 through A,9 vs all dealer upcards  \n- **Pairs**: All pairs (A,A through 2,2) vs all dealer upcards\n- **Surrender**: Late surrender recommendations\n- **Insurance**: Optimal insurance decisions (generally not recommended)\n\n### How It Works\nThe solver analyzes your current hand and the dealer's upcard, then recommends:\n- **Hit (H)**: Take another card\n- **Stand (S)**: Keep your current hand\n- **Double (D)**: Double your bet and take one card\n- **Split (P)**: Split your pair into two hands\n- **Surrender (R)**: Give up half your bet\n\nThe recommendation appears in a green box during your turn, showing the reasoning behind each decision.\n\n## Advanced Features
 
 ### Card Counting
 The game displays:
@@ -114,7 +114,7 @@ examples/blackjack/
 ├── dealer.lua        # Dealer AI and hand management
 ├── gameState.lua     # Game state and flow control
 ├── ui.lua           # User interface and controls
-└── README.md        # This file
+├── solver.lua        # 🎯 Blackjack Pro strategy solver\n├── test_solver.lua   # Unit tests for strategy solver\n└── README.md         # This file
 ```
 
 ## Running the Game
@@ -128,7 +128,7 @@ examples/blackjack/
 - **Sound Effects**: Card dealing, chip sounds, win/lose audio
 - **Animations**: Card dealing animations, chip movements
 - **Multiplayer**: Network play with other players
-- **Strategy Advisor**: Basic strategy suggestions
+- **Strategy Advisor**: ✅ **Blackjack Pro** - Real-time optimal strategy recommendations
 - **Tournament Mode**: Multiple players, elimination rounds
 - **Custom Rules**: Different house rules and variations
 

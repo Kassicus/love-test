@@ -290,6 +290,72 @@ function UI.drawInsuranceInterface(gameState, player)
     end
 end
 
+-- Draw strategy recommendation
+function UI.drawStrategyRecommendation(solver, player, dealer, gameState)
+    if not gameState:isPlayerTurn() or not solver then return end
+    
+    -- Position on far right, centered vertically between dealer and player sections
+    local screenWidth = love.graphics.getWidth()
+    local width = 300
+    local height = 200
+    local x = screenWidth - width - 20  -- 20px margin from right edge
+    
+    -- Center vertically between dealer area (140-340) and player area (700-900)
+    local dealerBottom = 340
+    local playerTop = 700
+    local centerY = dealerBottom + (playerTop - dealerBottom) / 2
+    local y = centerY - height / 2
+    
+    -- Background box
+    love.graphics.setColor(0, 0, 0, 0.8)
+    love.graphics.rectangle('fill', x - 10, y - 10, width + 20, height + 20, 10, 10)
+    
+    -- Border
+    love.graphics.setColor(0.6, 0.8, 0.6, 1)
+    love.graphics.rectangle('line', x - 10, y - 10, width + 20, height + 20, 10, 10)
+    
+    -- Title
+    love.graphics.setColor(0.6, 0.8, 0.6, 1)
+    love.graphics.setFont(uiState.font)
+    love.graphics.print("Blackjack Pro:", x + 5, y + 5)
+    
+    -- Get strategy recommendation
+    local playerHand = player:getCurrentHand()
+    local dealerUpcard = dealer:getUpCard()
+    
+    if playerHand and #playerHand > 0 and dealerUpcard then
+        local canDouble = player:canDouble()
+        local canSplit = player:canSplit()
+        local canSurrender = player:canSurrender()
+        
+        local action, reason = solver:getOptimalAction(playerHand, dealerUpcard, canDouble, canSplit, canSurrender)
+        local explanation = solver:getStrategyExplanation(playerHand, dealerUpcard, action, reason)
+        
+        -- Display recommendation
+        love.graphics.setColor(1, 1, 1, 1)
+        local lines = {}
+        for line in explanation:gmatch("[^\n]+") do
+            table.insert(lines, line)
+        end
+        
+        for i, line in ipairs(lines) do
+            love.graphics.print(line, x, y + 40 + (i - 1) * 25)
+        end
+        
+        -- Highlight the recommended action
+        local actionColor = {0.3, 1, 0.3, 1} -- Bright green
+        if action == "H" then actionColor = {1, 1, 0.3, 1} -- Yellow for hit
+        elseif action == "S" then actionColor = {0.3, 0.3, 1, 1} -- Blue for stand
+        elseif action == "D" then actionColor = {1, 0.5, 0.3, 1} -- Orange for double
+        elseif action == "P" then actionColor = {1, 0.3, 1, 1} -- Magenta for split
+        elseif action == "R" then actionColor = {1, 0.3, 0.3, 1} -- Red for surrender
+        end
+        
+        love.graphics.setColor(actionColor)
+        love.graphics.print(">>> Press " .. action .. " <<<", x + 10, y + height - 30)
+    end
+end
+
 -- Draw game information
 function UI.drawGameInfo(gameState, player, dealer, deck)
     local x = 80
@@ -330,9 +396,14 @@ function UI.drawGameInfo(gameState, player, dealer, deck)
 end
 
 -- Draw the complete UI
-function UI.draw(gameState, player, dealer, deck)
+function UI.draw(gameState, player, dealer, deck, solver)
     -- Draw game information
     UI.drawGameInfo(gameState, player, dealer, deck)
+    
+    -- Draw strategy recommendation
+    if solver then
+        UI.drawStrategyRecommendation(solver, player, dealer, gameState)
+    end
     
     -- Draw betting interface (when waiting for bet)
     if gameState:isWaitingForBet() then
