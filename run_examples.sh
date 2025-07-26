@@ -13,10 +13,11 @@ echo "4. Run Snake game"
 echo "5. Run Pong game"
 echo "6. Run Minesweeper game"
 echo "7. Run Angry Birds game"
-echo "8. Exit"
+echo "8. Run Blackjack game"
+echo "9. Exit"
 echo ""
 
-read -p "Enter your choice (1-8): " choice
+read -p "Enter your choice (1-9): " choice
 
 case $choice in
     1)
@@ -48,6 +49,10 @@ case $choice in
         love examples/angrybirds
         ;;
     8)
+        echo "Running Blackjack game..."
+        love examples/blackjack
+        ;;
+    9)
         echo "Goodbye!"
         exit 0
         ;;
